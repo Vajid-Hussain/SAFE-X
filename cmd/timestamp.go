@@ -14,7 +14,7 @@ import (
 // timestampCmd represents the timestamp command
 var timestampCmd = &cobra.Command{
 	Use:   "timestamp",
-	Short: "A brief description of your command",
+	Short: "A  description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usagate the needed files
 to quickly create a Cobra application.`,
