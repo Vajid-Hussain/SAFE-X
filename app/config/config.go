@@ -7,6 +7,8 @@ import (
 type Config struct {
 	SupaBaseConnection string `mapstructure:"Supabaseconnection"`
 	JwtSecret          string `mapstructure:"jwtsecret"`
+	ConfigFilePath     string `mapstructure:"configFilePath"`
+	ConfigPath         string `mapstructure:"configPath"`
 }
 
 func InitConfig() (*Config, error) {

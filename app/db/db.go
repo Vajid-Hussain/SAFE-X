@@ -11,13 +11,20 @@ type safex_users struct {
 	Password string
 }
 
+type safex_store struct {
+	ID       int
+	UserID   int
+	Name     string
+	Password string
+}
+
 func InitDB(dbconnection string) (*gorm.DB, error) {
 	DB, err := gorm.Open(postgres.Open(dbconnection), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
 
-	err = DB.AutoMigrate(&safex_users{})
+	err = DB.AutoMigrate(&safex_users{}, safex_store{})
 	if err != nil {
 		return nil, err
 	}

@@ -44,7 +44,7 @@ var signupCmd = &cobra.Command{
 		fmt.Println("")
 
 		if user.Password = strings.TrimSpace(string(password)); len(user.Password) <= 4 {
-			log.Fatal("password is less than four digit kidly strong your the password")
+			log.Fatal("password is less than five digit kidly strong your the password")
 		}
 
 		//read confirm password

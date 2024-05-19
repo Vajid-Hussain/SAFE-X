@@ -6,7 +6,7 @@ import (
 
 var (
 	ErrDataBase        = errors.New("someting went wrong please try again later")
-	ErrUserAlradyExist = errors.New("user alrady exist")
+	ErrUserAlradyExist = errors.New("user name alrady exist")
 )
 
 type User struct {
