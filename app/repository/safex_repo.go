@@ -25,3 +25,17 @@ func Signup(user *reqeustmodel.User) (*responsemodel.User, error) {
 	}
 	return &UserRes, nil
 }
+
+func Login(user *reqeustmodel.User) (*responsemodel.Login, error) {
+	var res responsemodel.Login
+	query := "SELECT * FROM safex_users WHERE user_name=$1"
+	result := db.Raw(query, user.UserName).Scan(&res)
+	if result.Error != nil {
+		return nil, responsemodel.ErrDataBase
+	}
+
+	if result.RowsAffected == 0 {
+		return nil, responsemodel.ErrNoUserExist
+	}
+	return &res, nil
+}

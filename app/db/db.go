@@ -6,7 +6,7 @@ import (
 )
 
 type safex_users struct {
-	UserID   int    `gorm:"type:bigint;primary_Key,AUTO_INCREMENT"`
+	UserID   int    `gorm:"type:bigint;primary_Key" sql:"AUTO_INCREMENT"`
 	UserName string `gorm:"unique"`
 	Password string
 }
