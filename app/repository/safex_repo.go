@@ -60,7 +60,7 @@ func StoreSecret(credential *reqeustmodel.Credential) error {
 
 func FetchSecret(req *reqeustmodel.GetSecret) (*responsemodel.Secret, error) {
 	var res responsemodel.Secret
-	query := "SELECT * FROM safex_stores WHERE name= $1 AND user_ids = $2"
+	query := "SELECT * FROM safex_stores WHERE name= $1 AND user_ids = $2 "
 	result := db.Raw(query, req.Name, req.UserID).Scan(&res)
 	if result.Error != nil {
 		return nil, responsemodel.ErrDataBase

@@ -142,3 +142,18 @@ func StoreSecret(credential *reqeustmodel.Credential) (err error) {
 
 	return repository.StoreSecret(credential)
 }
+
+func GetSecret(req *reqeustmodel.GetSecret) (*responsemodel.Secret, error) {
+	res, err := repository.FetchSecret(req)
+	if err != nil {
+		return nil, err
+	}
+
+	plainText, err := utils.DEcrypt([]byte(configData.EncrytpSecret), res.Secret)
+	if err != nil {
+		return nil, err
+	}
+
+	res.SecretPlainText = string(plainText)
+	return res, nil
+}
