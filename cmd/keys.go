@@ -1,40 +1,54 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"errors"
 	"fmt"
+	"log"
 
+	reqeustmodel "github.com/Vajid-Hussain/SAFE-X/app/Models/reqeustModel"
+	responsemodel "github.com/Vajid-Hussain/SAFE-X/app/Models/responseModel"
+	"github.com/Vajid-Hussain/SAFE-X/app/usecase"
+	"github.com/Vajid-Hussain/SAFE-X/app/utils"
 	"github.com/spf13/cobra"
 )
 
 // keysCmd represents the keys command
 var keysCmd = &cobra.Command{
 	Use:   "keys",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "List all stored keys",
+	Long:  `Retrieve and display all keys stored in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("keys called")
+		var (
+			req reqeustmodel.GetKey
+			err error
+		)
+
+		//validate user token
+		req.UserID, err = utils.ValidateToken()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// fetch all keys
+		result, err := usecase.AllKey(req)
+		if errors.Is(err, responsemodel.ErrNoSecret) {
+			fmt.Println(responsemodel.ErrNoSecret)
+			return
+		}
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for _, val := range result.Name {
+			fmt.Printf("key :%s\n", val)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(keysCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// keysCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// keysCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

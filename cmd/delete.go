@@ -1,40 +1,62 @@
 /*
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"bufio"
+	"errors"
 	"fmt"
+	"log"
+	"os"
+	"strings"
 
+	reqeustmodel "github.com/Vajid-Hussain/SAFE-X/app/Models/reqeustModel"
+	responsemodel "github.com/Vajid-Hussain/SAFE-X/app/Models/responseModel"
+	"github.com/Vajid-Hussain/SAFE-X/app/usecase"
+	"github.com/Vajid-Hussain/SAFE-X/app/utils"
 	"github.com/spf13/cobra"
 )
 
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Delete a stored secret",
+	Long:  `Remove a stored secret from the database by providing the necessary key or identifier.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("delete called")
+		var (
+			req reqeustmodel.GetSecret
+			err error
+		)
+
+		//validate user token
+		req.UserID, err = utils.ValidateToken()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		reader := bufio.NewReader(os.Stdin)
+
+		fmt.Printf("Enter name :")
+		req.Name, _ = reader.ReadString('\n')
+		if req.Name = strings.TrimSpace(req.Name); len(req.Name) == 0 {
+			log.Fatal(" name is empty")
+		}
+
+		//deleting
+		err = usecase.Delete(&req)
+		if errors.Is(err, responsemodel.ErrNoMatchingSecret) {
+			fmt.Println(responsemodel.ErrNoMatchingSecret)
+			return
+		}
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%s deleted succesfully\n", req.Name)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// deleteCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// deleteCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

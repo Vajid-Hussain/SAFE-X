@@ -157,3 +157,11 @@ func GetSecret(req *reqeustmodel.GetSecret) (*responsemodel.Secret, error) {
 	res.SecretPlainText = string(plainText)
 	return res, nil
 }
+
+func Delete(req *reqeustmodel.GetSecret) error {
+	return repository.DeleteSecret(req)
+}
+
+func AllKey(req reqeustmodel.GetKey) (*responsemodel.SecretsCollecton, error) {
+	return repository.AllKey(req)
+}

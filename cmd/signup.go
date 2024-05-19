@@ -20,8 +20,8 @@ import (
 // signupCmd represents the signup command
 var signupCmd = &cobra.Command{
 	Use:   "signup",
-	Short: "User signup",
-	Long:  `User create their accout by pass credential`,
+	Short: "Register a new user account",
+	Long:  `Create a new user account by providing the necessary credentials.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
 			user = reqeustmodel.User{}

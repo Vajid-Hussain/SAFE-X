@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	reqeustmodel "github.com/Vajid-Hussain/SAFE-X/app/Models/reqeustModel"
 	responsemodel "github.com/Vajid-Hussain/SAFE-X/app/Models/responseModel"
 	"gorm.io/gorm"
@@ -44,7 +42,6 @@ func Login(user *reqeustmodel.User) (*responsemodel.Login, error) {
 
 func StoreSecret(credential *reqeustmodel.Credential) error {
 	// credential.Secret = "noting"
-	fmt.Println("credential ", credential)
 	query := "INSERT INTO safex_stores (user_ids, name, secret) SELECT $1, $2, $3 WHERE NOT EXISTS(SELECT 1 FROM safex_stores WHERE user_ids=$1 AND name=$2)"
 	// query:="INSERT INTO safex_stores (user_id, name, secret) VALUES($1,$2, $3)"
 	result := db.Exec(query, credential.UserID, credential.Name, credential.CipherText)
@@ -74,8 +71,8 @@ func FetchSecret(req *reqeustmodel.GetSecret) (*responsemodel.Secret, error) {
 
 func AllKey(req reqeustmodel.GetKey) (*responsemodel.SecretsCollecton, error) {
 	var res responsemodel.SecretsCollecton
-	query := "SELECT name FROM safex_stores WHERE user_ids $1"
-	result := db.Raw(query, req.UserID).Scan(&res)
+	query := "SELECT name FROM safex_stores WHERE user_ids= $1"
+	result := db.Raw(query, req.UserID).Scan(&res.Name)
 	if result.Error != nil {
 		return nil, responsemodel.ErrDataBase
 	}
@@ -88,7 +85,7 @@ func AllKey(req reqeustmodel.GetKey) (*responsemodel.SecretsCollecton, error) {
 
 func DeleteSecret(req *reqeustmodel.GetSecret) error {
 	query := "DELETE FROM safex_stores WHERE user_ids =$1 AND name=$2"
-	result := db.Raw(query, req.UserID, req.Name)
+	result := db.Exec(query, req.UserID, req.Name)
 	if result.Error != nil {
 		return responsemodel.ErrDataBase
 	}

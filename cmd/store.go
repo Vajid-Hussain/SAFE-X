@@ -21,8 +21,8 @@ import (
 // storeCmd represents the store command
 var storeCmd = &cobra.Command{
 	Use:   "store",
-	Short: "Store name and password",
-	Long:  `Store name and password`,
+	Short: "Save a name and secret",
+	Long:  `Store a name and secret securely in the database.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
 			credential reqeustmodel.Credential
@@ -56,9 +56,9 @@ var storeCmd = &cobra.Command{
 
 		err = usecase.StoreSecret(&credential)
 		if err != nil {
-			log.Fatal("err ", err)
+			log.Fatal(err)
 		}
-		fmt.Printf("%s stored succesfully ", credential.Name)
+		fmt.Printf("%s stored succesfully \n", credential.Name)
 	},
 }
 

@@ -6,12 +6,12 @@ import (
 
 var (
 	ErrDataBase         = errors.New("someting went wrong please try again later")
-	ErrUserAlradyExist  = errors.New("user name alrady exist")
-	ErrNoUserExist      = errors.New("no user exist")
-	ErrPasswordNotMatch = errors.New("password not match")
-	ErrSecretKeyRepeat  = errors.New("key alrady exist")
-	ErrNoSecret         = errors.New("no secret exist")
-	ErrNoMatchingSecret = errors.New("no matching secret")
+	ErrUserAlradyExist  = errors.New("the username already exists")
+	ErrNoUserExist      = errors.New("no user found with the provided details")
+	ErrPasswordNotMatch = errors.New("the provided password does not match our records")
+	ErrSecretKeyRepeat  = errors.New("a secret with the same key already exists")
+	ErrNoSecret         = errors.New("no secret found for the specified criteria")
+	ErrNoMatchingSecret = errors.New("no matching secret found for the provided key")
 )
 
 type User struct {

@@ -20,8 +20,8 @@ import (
 // loginCmd represents the login command
 var loginCmd = &cobra.Command{
 	Use:   "login",
-	Short: "A brief description of your command",
-	Long:  `dfjk`,
+	Short: "User login",
+	Long:  `Log in to an existing user account by providing your username and password.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
 			user = reqeustmodel.User{}
