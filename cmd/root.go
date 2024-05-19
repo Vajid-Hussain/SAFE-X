@@ -12,8 +12,8 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "SAFE-X",
-	Short: "A brief description of your application",
-	Long:  `safe-x the saver`,
+	Short: "A secure and efficient CLI tool",
+	Long:  `SAFE-X: Your personal vault for storing and managing secrets securely.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },

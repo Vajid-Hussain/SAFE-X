@@ -4,11 +4,9 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"bufio"
 	"errors"
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
 	reqeustmodel "github.com/Vajid-Hussain/SAFE-X/app/Models/reqeustModel"
@@ -22,7 +20,7 @@ import (
 var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Retrieve a single secret",
-	Long:  `Retrieve a single secret from the database by providing the necessary key or identifier.`,	
+	Long:  `Retrieve a single secret from the database by providing the necessary key or identifier.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var (
 			req reqeustmodel.GetSecret
@@ -34,12 +32,21 @@ var getCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		reader := bufio.NewReader(os.Stdin)
+		// reader := bufio.NewReader(os.Stdin)
 
-		fmt.Printf("Enter name :")
-		req.Name, _ = reader.ReadString('\n')
+		// fmt.Printf("Enter name :")
+		// req.Name, _ = reader.ReadString('\n')
+		// if req.Name = strings.TrimSpace(req.Name); len(req.Name) == 0 {
+		// 	log.Fatal("Name is empty")
+		// }
+
+		req.Name, err = cmd.Flags().GetString("name")
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		if req.Name = strings.TrimSpace(req.Name); len(req.Name) == 0 {
-			log.Fatal("Name is empty")
+			log.Fatal("name flag empty")
 		}
 
 		//get data
@@ -52,10 +59,11 @@ var getCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("value : %s\n", result.SecretPlainText)
+		fmt.Printf("secret : %s\n", result.SecretPlainText)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(getCmd)
+	getCmd.PersistentFlags().String("name", "", "Retrieve a single secret")
 }

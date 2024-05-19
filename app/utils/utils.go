@@ -15,8 +15,8 @@ import (
 
 	reqeustmodel "github.com/Vajid-Hussain/SAFE-X/app/Models/reqeustModel"
 	"github.com/Vajid-Hussain/SAFE-X/app/config"
-	"github.com/absagar/go-bcrypt"
 	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var configData config.Config
@@ -70,11 +70,13 @@ func VerifyToken(tokenString, secretKey string) (string, error) {
 }
 
 func HashPassword(password string) (string, error) {
-	return bcrypt.Hash(password)
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(hash), err
 }
 
 func MatchHashPassword(password, hastPassword string) bool {
-	return bcrypt.Match(password, hastPassword)
+	err := bcrypt.CompareHashAndPassword([]byte(hastPassword), []byte(password))
+	return err == nil
 }
 
 func ValidateToken() (string, error) {

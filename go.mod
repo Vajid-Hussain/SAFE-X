@@ -3,15 +3,16 @@ module github.com/Vajid-Hussain/SAFE-X
 go 1.22.0
 
 require (
+	github.com/absagar/go-bcrypt v0.0.0-20171215093918-4b100ddf46d7
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
+	golang.org/x/term v0.20.0
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.10
 )
 
 require (
-	github.com/absagar/go-bcrypt v0.0.0-20171215093918-4b100ddf46d7 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
@@ -35,7 +36,6 @@ require (
 	golang.org/x/crypto v0.16.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/term v0.20.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
