@@ -4,9 +4,18 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"log"
+	"os"
+	"strings"
+	"syscall"
 
+	reqeustmodel "github.com/Vajid-Hussain/SAFE-X/app/Models/reqeustModel"
+	"github.com/Vajid-Hussain/SAFE-X/app/usecase"
+	"github.com/Vajid-Hussain/SAFE-X/app/utils"
 	"github.com/spf13/cobra"
+	"golang.org/x/term"
 )
 
 // storeCmd represents the store command
@@ -15,7 +24,41 @@ var storeCmd = &cobra.Command{
 	Short: "Store name and password",
 	Long:  `Store name and password`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("store called")
+		var (
+			credential reqeustmodel.Credential
+			err        error
+		)
+
+		credential.UserID, err = utils.ValidateToken()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		reader := bufio.NewReader(os.Stdin)
+
+		fmt.Printf("Enter name :")
+		credential.Name, _ = reader.ReadString('\n')
+		if credential.Name = strings.TrimSpace(credential.Name); len(credential.Name) == 0 {
+			log.Fatal("user name is empty")
+		}
+
+		//read password
+		fmt.Printf("Enter secret :")
+		password, err := term.ReadPassword(syscall.Stdin)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("")
+
+		if credential.Secret = strings.TrimSpace(string(password)); len(credential.Secret) <= 1 {
+			log.Fatal("secret is empty")
+		}
+
+		err = usecase.StoreSecret(&credential)
+		if err != nil {
+			log.Fatal("err ", err)
+		}
+		fmt.Printf("%s stored succesfully ", credential.Name)
 	},
 }
 

@@ -10,6 +10,7 @@ import (
 	"github.com/Vajid-Hussain/SAFE-X/app/db"
 	"github.com/Vajid-Hussain/SAFE-X/app/repository"
 	"github.com/Vajid-Hussain/SAFE-X/app/usecase"
+	"github.com/Vajid-Hussain/SAFE-X/app/utils"
 	"github.com/Vajid-Hussain/SAFE-X/cmd"
 )
 
@@ -24,6 +25,7 @@ func main() {
 		log.Fatal("error during connecting to database")
 	}
 
+	utils.LoadConfig(config)
 	usecase.InitConfig(config)
 	repository.InitRepository(DB)
 

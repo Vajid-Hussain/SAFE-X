@@ -12,10 +12,11 @@ type safex_users struct {
 }
 
 type safex_store struct {
-	ID       int
-	UserID   int
-	Name     string
-	Password string
+	ID     int
+	UserIDs   int
+	FKUser safex_users `gorm:"foreignKey:UserIDs;references:UserID"`
+	Name   string
+	Secret []byte
 }
 
 func InitDB(dbconnection string) (*gorm.DB, error) {

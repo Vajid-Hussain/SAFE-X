@@ -129,3 +129,16 @@ func Login(user *reqeustmodel.User) error {
 
 	return nil
 }
+
+func StoreSecret(credential *reqeustmodel.Credential) (err error) {
+	credential.CipherText, err = utils.Erncypt([]byte(configData.EncrytpSecret), []byte(credential.Secret))
+	if err != nil {
+		return err
+	}
+
+	// fmt.Println("cyperjer text ", cipherText)
+
+	// credential.Secret = string(cipherText)
+
+	return repository.StoreSecret(credential)
+}

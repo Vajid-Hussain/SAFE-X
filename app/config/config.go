@@ -9,6 +9,7 @@ type Config struct {
 	JwtSecret          string `mapstructure:"jwtsecret"`
 	ConfigFilePath     string `mapstructure:"configFilePath"`
 	ConfigPath         string `mapstructure:"configPath"`
+	EncrytpSecret      string `mapstructure:"secret"`
 }
 
 func InitConfig() (*Config, error) {
@@ -17,6 +18,7 @@ func InitConfig() (*Config, error) {
 	viper.AddConfigPath("./")
 	viper.SetConfigName("dev")
 	viper.SetConfigType("env")
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		return nil, err

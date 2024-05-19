@@ -35,6 +35,10 @@ var signupCmd = &cobra.Command{
 			log.Fatal("user name is empty")
 		}
 
+		if user.Password = strings.TrimSpace(string(user.UserName)); len(user.Password) <= 4 {
+			log.Fatal("password is less than five digit kidly strong your the password")
+		}
+
 		//read password
 		fmt.Printf("Enter your password :")
 		password, err := term.ReadPassword(syscall.Stdin)
